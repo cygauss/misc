@@ -1,0 +1,35 @@
+#镜像
+sed -i 's_downloads.openwrt.org_mirrors.tuna.tsinghua.edu.cn/openwrt_' /etc/opkg/distfeeds.conf
+
+opkg update
+opkg install parted losetup resize2fs
+
+#必须手动操作
+#parted
+#print
+#fix
+#quit
+
+parted -s /dev/sda resizepart 2 100%
+losetup /dev/loop0 /dev/sda2
+resize2fs -f /dev/loop0
+reboot
+
+#更新命令
+opkg update
+opkg list-upgradable | cut -f 1 -d ' ' | xargs opkg upgrade
+
+
+#nat6 https://openwrt.org/docs/guide-user/network/ipv6/ipv6.nat6
+
+uci set firewall.@zone[1].masq6="1"
+uci commit firewall
+service firewall restart
+
+uci set network.wan6.sourcefilter="0"
+uci commit network
+service network restart
+
+#v2raya
+opkg update
+opkg install v2raya v2fly-geoip v2fly-geosite luci-app-v2raya luci-i18n-v2raya-zh-cn

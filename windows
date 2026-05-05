@@ -27,12 +27,8 @@ netsh interface ipv6 set interface X routerdiscovery=disabled
 #v2rayn
 [offset]
 -> direct
-#steamtools,
-steamtools.net,
-bbs.steamtools.net,
 #steam,
 geosite:steam@cn,
-steamserver.net,
-#lol换肤,
-www.bingoma.top
+steamserver.net
+
 
